@@ -1,0 +1,3 @@
+[submodule "brainetrust"]
+	path = brainetrust
+	url = https://github.com/KwasiEzor/brainetrust.git
