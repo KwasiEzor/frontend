@@ -1,6 +1,25 @@
-import { Container, Tabs, Tab, Row, Col, Card, Button } from "react-bootstrap";
+import {
+  Container,
+  Tabs,
+  Tab,
+  Row,
+  Col,
+  Card,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import BigTitle from "../../components/utils/BigTitle";
+import { membersData } from "../../data/membersData";
+import { useState } from "react";
+import ModalComponent from "../../components/utils/ModalComponent";
+
 const Index = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  // currentExecutiveMember();
   return (
     <Container
       className="page__scrabble "
@@ -16,128 +35,67 @@ const Index = () => {
           <Tab eventKey="Bureau" title="Bureau Exécutif">
             <Container style={{ display: "grid", placeItems: "center" }}>
               <Row className="p-4">
-                <Col lg md="4" sm="12">
-                  <Card
-                    style={{ width: "18rem", marginBottom: "2rem" }}
-                    className="organ__card__item"
-                  >
-                    <Card.Img variant="top" src="/assets/images/profil-5.png" />
-                    <Card.Body>
-                      <Card.Title>Présidente</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                      <Button variant="primary">Voir profil</Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col lg md="4" sm="12">
-                  <Card
-                    style={{ width: "18rem", marginBottom: "2rem" }}
-                    className="organ__card__item"
-                  >
-                    <Card.Img variant="top" src="/assets/images/profil-4.png" />
-                    <Card.Body>
-                      <Card.Title>Vice Président</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                      <Button variant="primary">Voir profil</Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col lg md="4" sm="12">
-                  <Card
-                    style={{ width: "18rem", marginBottom: "2rem" }}
-                    className="organ__card__item"
-                  >
-                    <Card.Img variant="top" src="/assets/images/profil-2.png" />
-                    <Card.Body>
-                      <Card.Title>Secrétaire</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                      <Button variant="primary">Voir profil</Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
+                {membersData &&
+                  membersData[0].executive.map((member) => (
+                    <Col lg md="4" sm="12">
+                      <Card
+                        style={{
+                          width: "calc(100% - 2rem)",
+                          marginBottom: "2rem",
+                        }}
+                        className="organ__card__item"
+                        key={member.id}
+                      >
+                        <Card.Img variant="top" src={member.imgUrl} />
+                        <Card.Body>
+                          <Card.Title>{member.title}</Card.Title>
+                          <Card.Text>
+                            Some quick example text to build on the card title
+                            and make up the bulk of the card's content.
+                          </Card.Text>
+                          <Button variant="primary" onClick={handleShow}>
+                            Voir profil
+                          </Button>
+                          {/* Modal section for profile  */}
+                          {/* <ModalComponent member={member} /> */}
+
+                          {/*End Modal section for profile  */}
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
               </Row>
               {/* Row  */}
-              <Row className="p-4">
-                <Col lg md="4" sm="12">
-                  <Card
-                    style={{ width: "18rem", marginBottom: "2rem" }}
-                    className="organ__card__item"
-                  >
-                    <Card.Img variant="top" src="/assets/images/profil-8.png" />
-                    <Card.Body>
-                      <Card.Title>Trésorier</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                      <Button variant="primary">Voir profil</Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col lg md="4" sm="12">
-                  <Card
-                    style={{ width: "18rem", marginBottom: "2rem" }}
-                    className="organ__card__item"
-                  >
-                    <Card.Img variant="top" src="/assets/images/profil-7.png" />
-                    <Card.Body>
-                      <Card.Title>Coordinateur interclub</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                      <Button variant="primary">Voir profil</Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col lg md="4" sm="12">
-                  <Card
-                    style={{ width: "18rem", marginBottom: "2rem" }}
-                    className="organ__card__item"
-                  >
-                    <Card.Img variant="top" src="/assets/images/profil-6.png" />
-                    <Card.Body>
-                      <Card.Title>Coordinateur tournoi</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                      <Button variant="primary">Voir profil</Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
             </Container>
           </Tab>
           <Tab eventKey="Directeur" title="Comité directeur">
             <Container>
-              <Row>
-                <Col lg md="4" sm="12">
-                  <Card
-                    style={{ width: "18rem", marginBottom: "2rem" }}
-                    className="organ__card__item"
-                  >
-                    <Card.Img variant="top" src="/assets/images/user-3.jpg" />
-                    <Card.Body>
-                      <Card.Title>Présidente</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                      <Button variant="primary">Voir profil</Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
+              <Row className="p-4">
+                {membersData &&
+                  membersData[0].committee.map((member) => (
+                    <Col lg md="4" sm="12">
+                      <Card
+                        style={{
+                          width: "calc(100% - 2rem)",
+                          marginBottom: "2rem",
+                        }}
+                        className="organ__card__item"
+                        key={member.id}
+                      >
+                        <Card.Img variant="top" src={member.imgUrl} />
+                        <Card.Body>
+                          <Card.Title>{member.title}</Card.Title>
+                          <Card.Text>
+                            Some quick example text to build on the card title
+                            and make up the bulk of the card's content.
+                          </Card.Text>
+                          <Button variant="primary">Voir profil</Button>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
               </Row>
+              {/* Row  */}
             </Container>
           </Tab>
         </Tabs>

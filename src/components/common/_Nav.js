@@ -15,7 +15,7 @@ const _Nav = () => {
         <div className="spacer"></div>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="">
-          <Nav className=" d-flex align-self-end">
+          <Nav className=" home__nav d-flex align-self-end">
             <Link href="/" passHref>
               <Nav.Link className="text-white">Accueil</Nav.Link>
             </Link>

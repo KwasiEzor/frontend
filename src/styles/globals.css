@@ -145,7 +145,21 @@ input::placeholder,
 
   border-radius: 5px;
 }
+@media screen and (max-width: 569px) {
+  .home__nav{
+    display:flex;
+    align-items:center;
+  }
+  .home__nav .nav-link{
+    padding: 1rem 0;
+
+  }
+
+}
 @media screen and (max-width: 769px) {
+  .home__nav{
+    align-items:center;
+  }
   .home__carousel {
     display: none;
   }
@@ -172,7 +186,12 @@ input::placeholder,
     display: none;
   }
   .page__organigram__container .organ__card__item img {
-    width: 100%;
+    width: 100% !important;
+  }
+}
+@media screen and (max-width: 990px) {
+  .page__organigram__container .organ__card__item img {
+    width: 100% !important;
   }
 }
 .carouselCol {

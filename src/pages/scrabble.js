@@ -207,6 +207,7 @@ const scrabble = () => {
                   <Card.Header>
                     <h5 className="text-dark">{article.title}</h5>
                   </Card.Header>
+                  {article.imgSrc && <Card.Img src={article.imgSrc} />}
 
                   <Card.Body>
                     <Card.Text style={{ color: "gray", textAlign: "justify" }}>
@@ -214,23 +215,23 @@ const scrabble = () => {
                     </Card.Text>
                     {article.rulesOrDetails &&
                       article.rulesOrDetails.map((rd) => (
-                        <>
-                          <p key={rd.id} className="text-muted">
+                        <div key={rd.id}>
+                          <p className="text-muted">
                             {" "}
                             <span className="text-dark bold">
                               Règle N° {rd.id}
                             </span>{" "}
                             : {rd.rule}
                           </p>
-                        </>
+                        </div>
                       ))}
-                    {article.imgSrc && (
+                    {/* {article.imgSrc && (
                       <img
                         src={article.imgSrc}
                         width="150rem"
                         height="120rem"
                       />
-                    )}
+                    )} */}
                   </Card.Body>
                   <Card.Footer>
                     <p className="text-dark">

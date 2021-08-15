@@ -236,7 +236,7 @@ export const duplicateArticles = [
     title: "Duplicate, c'est quoi en réalité",
     content:
       "Le Scrabble duplicate est une variante du jeu de Scrabble qui consiste à jouer une partie seul, ou à plusieurs chacun jouant avec le même tirage et plaçant le même mot sur la grille, en tentant à chaque coup de faire le meilleur score possible, selon les lettres sur le chevalet et la configuration de la grille. Le duplicate est la variante la plus répandue en français dans les clubs et en compétition, avec plus de 15 000 licenciés en France1 et plus de 20 000 licenciés au monde2. Elle est aussi pratiquée en roumain3 et en néerlandais4 mais est de loin plus populaire en français qu'en toutes les autres langues.",
-    imgSrc: "",
+    imgSrc: "/assets/images/duplicate-compet-1.jpg",
     rulesOrDetails: [],
     source: "https://fr.wikipedia.org/wiki/Scrabble_duplicate",
   },
@@ -245,7 +245,7 @@ export const duplicateArticles = [
     title: "Historique",
     content:
       "Jusque dans les années 1970, le Scrabble se pratique uniquement selon la formule dite classique, c'est-à-dire à 2, 3 ou 4 joueurs qui piochent leurs lettres dans le même sac et jouent sur la même grille, à tour de rôle. Cette formule laisse une certaine part à la chance, chaque joueur ayant des lettres différentes et jouant sur une configuration de grille différente, puisqu'elle évolue au fil des mots posés par chaque joueur.En 1971, est inventée la version duplicate censée éliminer le facteur chance. Elle s'inspire pour cela du bridge, jeu de cartes dans lequel existe déjà une formule nommée duplicate5,6 (mot d'origine anglaise signifiant faire une copie à l'identique7) qui permet d'atténuer fortement le facteur chance en distribuant les mêmes donnes de cartes aux quatre joueurs de toutes les tables.L'invention de cette méthode de jeu permet rapidement la mise en place de compétitions rassemblant un nombre illimité de personnes. Les débuts sont modestes, ainsi le 1er Championnat du monde francophone en 1972 rassemble-t-il à peine 10 joueurs8. En 2007, le 36e Championnat du Monde a rassemblé plusieurs centaines de joueurs9, et, chaque année, les festivals fédéraux français accueillent chacun plus de 1 000 joueurs",
-    imgSrc: "",
+    imgSrc: "/assets/images/duplicate-compet-2.jpg",
     rulesOrDetails: [],
     source: "https://fr.wikipedia.org/wiki/Scrabble_duplicate",
   },
@@ -492,6 +492,15 @@ export const scrabbleAppsArticles = [
     nbDownload: "",
     source:
       "https://play.google.com/store/apps/details?id=fr.ffsc.duplijeu&fbclid=IwAR2pb29_HfidT4itYoqdVKGUR9vQoy0sk7L5BcIRbkV-awj9gW3xmZiepKM",
+  },
+  {
+    id: 7,
+    title: "ISC ",
+    content:
+      "L' Internet Scrabble Club ( ISC ) est un site Web qui permet aux joueurs du monde entier de jouer au Scrabble via une interface Web. Auparavant, il fallait télécharger un logiciel, appelé Wordbiz, pour jouer, mais Wordbiz n'est plus pris en charge.",
+    imgSrc: "/assets/images/logo-isc.png",
+    nbDownload: "",
+    source: "https://isc.ro/index_fr.php",
   },
 ];
 export const scrabbleDupliArticles = [
