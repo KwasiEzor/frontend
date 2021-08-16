@@ -7,6 +7,7 @@ import {
   Form,
   InputGroup,
   Badge,
+  Pagination,
 } from "react-bootstrap";
 import Link from "next/link";
 import BigTitle from "../../components/utils/BigTitle";
@@ -49,6 +50,25 @@ const index = () => {
                   </Col>
                 ))}
             </Row>
+          </div>
+          <div className="d-flex align-items-center  justify-content-end m-4">
+            <Pagination>
+              <Pagination.First />
+              <Pagination.Prev />
+              <Pagination.Item>{1}</Pagination.Item>
+              <Pagination.Ellipsis />
+
+              <Pagination.Item>{10}</Pagination.Item>
+              <Pagination.Item>{11}</Pagination.Item>
+              <Pagination.Item active>{12}</Pagination.Item>
+              <Pagination.Item>{13}</Pagination.Item>
+              <Pagination.Item disabled>{14}</Pagination.Item>
+
+              <Pagination.Ellipsis />
+              <Pagination.Item>{20}</Pagination.Item>
+              <Pagination.Next />
+              <Pagination.Last />
+            </Pagination>
           </div>
         </Col>
         {/* end Articles content  */}
@@ -112,7 +132,6 @@ const index = () => {
                         key={article.id}
                         className="list-item mb-2 d-flex align-items-center justify-content-around text-white textShadow"
                         style={{ cursor: "pointer" }}
-                        key={article.id}
                       >
                         <span style={{ width: "50px", height: "50px" }}>
                           <img

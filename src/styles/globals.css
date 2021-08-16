@@ -7,6 +7,7 @@
   --ff-secondary: "shrikhand", cursive;
   --ff-third: "Noto sans", sans-serif;
   --bra-white: #fff;
+  --bra-dark: #111;
   --bra-light: #f2f2f2;
   --bra-text-dark: rgb(51, 51, 51);
   --transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -321,4 +322,42 @@ input::placeholder,
 
 /****** Organigram page  ******/
 
-/******  page  ******/
+/******  Members page  ******/
+.paginationBttns {
+  width: 80%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+
+  padding: 1rem;
+}
+
+.paginationBttns a {
+  padding: 0.25rem 0.5rem;
+  margin: 8px;
+  border-radius: 1px;
+  border: 1px solid var(--bra-white);
+  color: var(--bra-light) !important;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.paginationBttns a:hover {
+  color: var(--bra-dark) !important;
+  background-color: var(--bra-secondary);
+}
+
+.paginationActive a {
+  color: white;
+  background-color: var(--bra-secondary);
+}
+
+.paginationDisabled a {
+  color: var(--bra-dark);
+  background-color: var(--bra-secondary);
+}
+.previousBttn {
+  color: var(--bra-dark) !important;
+}
+/******   page  ******/

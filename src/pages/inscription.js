@@ -25,7 +25,7 @@ const inscription = () => {
                       eventKey="first"
                       className="text-white btn btn-ouline"
                     >
-                      Ancien Membre
+                      Utilisateurs
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
