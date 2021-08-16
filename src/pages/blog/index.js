@@ -68,7 +68,7 @@ const index = () => {
                     placeholder="Entrez un mot clé..."
                   />
                   <InputGroup.Text className="btn btn-warning">
-                    <i class="fas fa-search"></i>
+                    <i className="fas fa-search"></i>
                   </InputGroup.Text>
                 </InputGroup>
               </Form>

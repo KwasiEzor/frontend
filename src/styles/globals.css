@@ -30,7 +30,9 @@ input::placeholder,
 .inputSelect {
   color: #cccccc !important;
 }
-
+.bgLightBlue {
+  background-color: rgba(200, 206, 255, 0.555) !important;
+}
 .btnHeroAction:hover {
   transform: scale(1.1);
   transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -146,19 +148,17 @@ input::placeholder,
   border-radius: 5px;
 }
 @media screen and (max-width: 569px) {
-  .home__nav{
-    display:flex;
-    align-items:center;
+  .home__nav {
+    display: flex;
+    align-items: center;
   }
-  .home__nav .nav-link{
+  .home__nav .nav-link {
     padding: 1rem 0;
-
   }
-
 }
 @media screen and (max-width: 769px) {
-  .home__nav{
-    align-items:center;
+  .home__nav {
+    align-items: center;
   }
   .home__carousel {
     display: none;
