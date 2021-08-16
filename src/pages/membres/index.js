@@ -24,17 +24,32 @@ export async function getServerSideProps(context) {
 const index = ({ members }) => {
   const { results } = members;
   console.log(results);
-  const [mbrs, setMbrs] = useState(results.slice(0, 50));
+  const [filteredData, setFilteredData] = useState(results.slice(0, 50));
   const [pageNumber, setPageNumber] = useState(0);
+
+  // search function to filter data
+
+  const handleFilter = (event) => {
+    const seachWord = event.target.value;
+    const newFilterData = results.filter((value) => {
+      return (
+        value.name.first.toLowerCase().includes(seachWord.toLowerCase()) ||
+        value.name.last.toLowerCase().includes(seachWord.toLowerCase()) ||
+        value.name.title.toLowerCase().includes(seachWord.toLowerCase()) ||
+        value.gender.toLowerCase().includes(seachWord.toLowerCase())
+      );
+    });
+    setFilteredData(newFilterData);
+  };
   // members per page
   const membersPerPage = 10;
   // pages visited total members
   const pagesVisited = pageNumber * membersPerPage;
-  const pageTotalNumber = Math.ceil(mbrs.length / membersPerPage);
+  const pageTotalNumber = Math.ceil(filteredData.length / membersPerPage);
   const handlePageChange = ({ selected }) => {
     setPageNumber(selected);
   };
-  const displayedMbrs = mbrs
+  const displayedMbrs = filteredData
     .slice(pagesVisited, pagesVisited + membersPerPage)
     .map((mb) => {
       return (
@@ -94,6 +109,7 @@ const index = ({ members }) => {
                   placeholder="Entrez un mot clé..."
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
+                  onChange={handleFilter}
                 />
                 <Button variant="warning" id="btnSearch">
                   <i className="fas fa-search"></i>
