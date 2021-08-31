@@ -19,10 +19,18 @@ class MyDocument extends Document {
           ></link>
           <link
             rel="stylesheet"
+            href="https://unpkg.com/aos@next/dist/aos.css"
+          />
+
+          <link
+            rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
           ></link>
+          <script src="/node_modules/dist/aos/aos.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+          <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+          <script>AOS.init();</script>
         </Head>
         <body>
           <Main />

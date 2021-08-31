@@ -42,7 +42,7 @@ export default function Home() {
           <BigTitle
             imgUrl="/assets/images/letterA.png"
             className="home__heading"
-            marginTop="20rem"
+            marginTop="22rem"
             marginBottom="5rem"
           />
           {/* Discover row  */}

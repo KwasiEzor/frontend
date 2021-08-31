@@ -24,7 +24,7 @@ export async function getServerSideProps(context) {
 const index = ({ members }) => {
   const { results } = members;
   console.log(results);
-  const [filteredData, setFilteredData] = useState(results.slice(0, 50));
+  const [filteredData, setFilteredData] = useState(results.slice(0, 100));
   const [pageNumber, setPageNumber] = useState(0);
 
   // search function to filter data
@@ -42,7 +42,7 @@ const index = ({ members }) => {
     setFilteredData(newFilterData);
   };
   // members per page
-  const membersPerPage = 10;
+  const membersPerPage = 12;
   // pages visited total members
   const pagesVisited = pageNumber * membersPerPage;
   const pageTotalNumber = Math.ceil(filteredData.length / membersPerPage);
@@ -100,6 +100,7 @@ const index = ({ members }) => {
             style={{ display: "grid", placeItems: "center" }}
           >
             <Form
+              className="searchForm"
               style={{
                 width: "calc(100% - 20rem)",
               }}

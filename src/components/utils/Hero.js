@@ -1,10 +1,13 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { motion } from "framer-motion";
+import buttonComponent from "../others/buttonComponent";
+import Link from "next/link";
 const Hero = () => {
   return (
     <Container className="hero__block container">
       <Row>
         <Col lg md={6} xs={12} className="hero__left">
-          <div className="hero__left__box">
+          <motion.div className="hero__left__box">
             <h1 className="hero__left_title">
               Bienvenue <br />
               au
@@ -18,15 +21,17 @@ const Hero = () => {
                 className="hero__left__img"
               />
             </div>
-            <Button
-              type="button"
-              variant="outline-warning"
-              className="mt-4 btnHeroAction"
-              size="lg"
-            >
-              COMMENCEZ ICI
-            </Button>
-          </div>
+            <Link href="/scrabble">
+              <Button
+                type="button"
+                variant="outline-warning"
+                className="mt-4 btnHeroAction"
+                size="lg"
+              >
+                COMMENCEZ ICI
+              </Button>
+            </Link>
+          </motion.div>
         </Col>
         <Col lg md={6} xs={12} className="hero__right"></Col>
       </Row>

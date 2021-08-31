@@ -159,6 +159,7 @@ input::placeholder,
 }
 @media screen and (max-width: 769px) {
   .home__nav {
+    display: flex;
     align-items: center;
   }
   .home__carousel {
@@ -250,6 +251,10 @@ input::placeholder,
   .contact__formBox {
     padding: 2rem 1.5rem;
   }
+  .searchForm {
+    width: calc(100% - 5rem) !important;
+    margin: 0 auto !important;
+  }
 }
 /****** Subscribe page  ******/
 #subscribeNav a {
@@ -329,7 +334,7 @@ input::placeholder,
   list-style: none;
   display: flex;
   justify-content: center;
-
+  margin: 0 auto;
   padding: 1rem;
 }
 

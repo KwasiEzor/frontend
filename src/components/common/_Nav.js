@@ -7,8 +7,9 @@ const _Nav = () => {
         <Navbar.Brand style={{ cursor: "pointer" }}>
           <Link href="/">
             <img
-              src="/assets/images/logo-braine-nav.svg"
+              src="/assets/images/logo-braine.svg"
               alt="Logo Braine Trust"
+              style={{ width: "12.5rem" }}
             />
           </Link>
         </Navbar.Brand>
@@ -53,12 +54,20 @@ const _Nav = () => {
               </Nav.Link>
             </Link>
             <Link href="/connexion" passHref>
-              <Nav.Link className="btn btn-default text-white" id="btnLogin">
+              <Nav.Link
+                className="btn btn-default text-white"
+                id="btnLogin"
+                title="Bouton de connexion"
+              >
                 <i className="fas fa-user-circle text-white"></i>
               </Nav.Link>
             </Link>
             <Link href="/contact" passHref>
-              <Nav.Link className="btn btn-default text-white" id="btnLogin">
+              <Nav.Link
+                className="btn btn-default text-white"
+                id="btnLogin"
+                title="Bouton de contact"
+              >
                 <i className="fas fa-envelope text-white"></i>
               </Nav.Link>
             </Link>
