@@ -1,4 +1,5 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
+import Link from "next/link";
 const Hero = () => {
   return (
     <Container className="hero__block container">
@@ -18,14 +19,16 @@ const Hero = () => {
                 className="hero__left__img"
               />
             </div>
-            <Button
-              type="button"
-              variant="outline-warning"
-              className="mt-4 btnHeroAction"
-              size="lg"
-            >
-              COMMENCEZ ICI
-            </Button>
+            <Link href="/scrabble">
+              <Button
+                type="button"
+                variant="outline-warning"
+                className="mt-4 btnHeroAction"
+                size="lg"
+              >
+                COMMENCEZ ICI
+              </Button>
+            </Link>
           </div>
         </Col>
         <Col lg md={6} xs={12} className="hero__right"></Col>
