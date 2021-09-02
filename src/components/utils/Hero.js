@@ -20,14 +20,14 @@ const Hero = () => {
               />
             </div>
             <Link href="/scrabble">
-              <Button
+              <a
                 type="button"
                 variant="outline-warning"
                 className="mt-4 btnHeroAction"
                 size="lg"
               >
                 COMMENCEZ ICI
-              </Button>
+              </a>
             </Link>
           </div>
         </Col>

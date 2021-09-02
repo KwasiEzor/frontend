@@ -2,7 +2,7 @@ import { Container, Row, Col, Accordion, Badge } from "react-bootstrap";
 import { useContext } from "react";
 import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import AccordionContext from "react-bootstrap/AccordionContext";
-
+import { Button } from "react-bootstrap";
 function ContextAwareToggle({ children, eventKey, callback }) {
   const { activeEventKey } = useContext(AccordionContext);
 
@@ -14,7 +14,7 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   const isCurrentEventKey = activeEventKey === eventKey;
 
   return (
-    <button
+    <Button
       type="button"
       style={{
         backgroundColor: isCurrentEventKey ? "" : "",
@@ -24,8 +24,8 @@ function ContextAwareToggle({ children, eventKey, callback }) {
       onClick={decoratedOnClick}
       className="btn btn-warning"
     >
-      <i class="fas fa-plus-square"></i>
-    </button>
+      <i className="fas fa-plus-square"></i>
+    </Button>
   );
 }
 const AgendaRow = ({ agenda }) => {

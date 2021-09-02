@@ -23,7 +23,7 @@ function ContextAwareToggle({ children, eventKey, callback }) {
       onClick={decoratedOnClick}
       className="btn btn-warning"
     >
-      <i class="fas fa-plus-square"></i>
+      <i className="fas fa-plus-square"></i>
     </button>
   );
 }

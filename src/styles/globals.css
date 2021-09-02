@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Shrikhand&family=Work+Sans:wght@300;400;500;600;700;800&display=swap");
 
 :root {
-  --bra-primary: #1d59fc;
-  --bra-secondary: #ffc000;
+  --bra-primary: rgb(29, 89, 252);
+  --bra-secondary: rgb(255, 192, 0);
   --ff-primary: "work sans", sans-serif;
   --ff-secondary: "shrikhand", cursive;
   --ff-third: "Noto sans", sans-serif;
