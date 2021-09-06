@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import AccordionContext from "react-bootstrap/AccordionContext";
 import { Button } from "react-bootstrap";
+
 function ContextAwareToggle({ children, eventKey, callback }) {
   const { activeEventKey } = useContext(AccordionContext);
 
@@ -28,10 +29,10 @@ function ContextAwareToggle({ children, eventKey, callback }) {
     </Button>
   );
 }
-const AgendaRow = ({ agenda }) => {
+const AgendaRow = ({ agenda, index }) => {
   return (
-    <Accordion defaultActiveKey="1" key={agenda.id}>
-      <Accordion.Item eventKey={agenda.id}>
+    <Accordion defaultActiveKey="1">
+      <Accordion.Item eventKey={agenda.id} key={agenda.id}>
         <Accordion.Header>
           <Row
             className="accordionHeader__content"
@@ -56,8 +57,8 @@ const AgendaRow = ({ agenda }) => {
                 <i class="fas fa-calendar-alt text-primary"></i> Date et Heure{" "}
               </h6>
               <p>
-                <Badge bg="primary">{agenda.date} </Badge> |{" "}
-                <Badge bg="warning">{agenda.time}</Badge>
+                <Badge bg="primary">{agenda.event_date} </Badge> |{" "}
+                <Badge bg="warning">{agenda.event_time.substring(0, 5)}</Badge>
               </p>
             </Col>
             <Col sm={12} md={2}>
@@ -70,12 +71,17 @@ const AgendaRow = ({ agenda }) => {
               <h6>
                 <i className="fas fa-trophy text-primary"></i> Compétitions
               </h6>
-              <p>{agenda.competition}</p>
+              <p>
+                {agenda.competitions.map((competition) => competition.name)}
+              </p>
             </Col>
           </Row>
           <ContextAwareToggle />
         </Accordion.Header>
-        <Accordion.Body>{agenda.description}</Accordion.Body>
+        <Accordion.Body>
+          <h6> Lieu: {agenda.event_place}</h6>
+          <p>Détails info: {agenda.description}</p>
+        </Accordion.Body>
       </Accordion.Item>
     </Accordion>
   );

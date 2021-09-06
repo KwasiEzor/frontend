@@ -11,8 +11,51 @@ import {
 } from "react-bootstrap";
 import AgendaRow from "../../components/utils/AgendaRow";
 import BigTitle from "../../components/utils/BigTitle";
-import { agendaData } from "./../../data/agendaData";
-const index = () => {
+// import { agendaData } from "./../../data/agendaData";
+import client from "../../../graphql/apolloClient";
+import { GET_ALL_AGENDAS } from "../../../graphql/queries";
+import { useState } from "react";
+import ReactPagination from "react-paginate";
+
+// Fetching agendas data
+
+export async function getStaticProps() {
+  const { data, loading } = await client.query({
+    query: GET_ALL_AGENDAS,
+  });
+  return {
+    props: {
+      agendaData: data.agendas,
+      loading: loading,
+    },
+    revalidate: 1,
+  };
+}
+const index = ({ agendaData }) => {
+  const [filteredData, setFilteredData] = useState(agendaData.slice(0, 45));
+  const [pageNumber, setPageNumber] = useState(0);
+  const handleFilter = (event) => {
+    const searchWord = event.target.value;
+    const newFilteredData = agendaData.filter((value) => {
+      return (
+        value.event.toLowerCase().includes(searchWord.toLowerCase()) ||
+        value.event_place.toLowerCase().includes(searchWord.toLowerCase()) ||
+        value.event_time.toLowerCase().includes(searchWord.toLowerCase())
+      );
+    });
+    setFilteredData(newFilteredData);
+  };
+
+  // agendas per page
+  const agendasPerPage = 10;
+  // pages visited
+  const pageVisited = pageNumber * agendasPerPage;
+  // total page number
+  const pageTotalNumber = Math.ceil(filteredData.length / agendasPerPage);
+
+  const handlePageChange = ({ selected }) => {
+    setPageNumber(selected);
+  };
   return (
     <Container
       className="page__scrabble "
@@ -40,6 +83,7 @@ const index = () => {
                   placeholder="Entrez un mot clé..."
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
+                  onChange={handleFilter}
                 />
                 <Button variant="warning" id="btnSearch">
                   <i className="fas fa-search"></i>
@@ -49,27 +93,24 @@ const index = () => {
           </Card>
         </div>
         <div className="mb-5">
-          {agendaData &&
-            agendaData.map((agenda) => <AgendaRow agenda={agenda} />)}
+          {filteredData
+            .slice(pageVisited, pageVisited + agendasPerPage)
+            .map((agenda) => (
+              <AgendaRow agenda={agenda} key={agenda.id} />
+            ))}
         </div>
         <div className="d-flex align-items-center  justify-content-end">
-          <Pagination>
-            <Pagination.First />
-            <Pagination.Prev />
-            <Pagination.Item>{1}</Pagination.Item>
-            <Pagination.Ellipsis />
-
-            <Pagination.Item>{10}</Pagination.Item>
-            <Pagination.Item>{11}</Pagination.Item>
-            <Pagination.Item active>{12}</Pagination.Item>
-            <Pagination.Item>{13}</Pagination.Item>
-            <Pagination.Item disabled>{14}</Pagination.Item>
-
-            <Pagination.Ellipsis />
-            <Pagination.Item>{20}</Pagination.Item>
-            <Pagination.Next />
-            <Pagination.Last />
-          </Pagination>
+          <ReactPagination
+            containerClassName={"paginationBttns"}
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            pageCount={pageTotalNumber}
+            onPageChange={handlePageChange}
+            previousClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+          />
         </div>
       </Container>
     </Container>

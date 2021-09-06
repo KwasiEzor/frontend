@@ -11,8 +11,43 @@ import {
 import BigTitle from "../../components/utils/BigTitle";
 import { membersData } from "../../data/membersData";
 import { useState } from "react";
+import client from "./../../../graphql/apolloClient";
+import { GET_ALL_ORGANIGRAMS } from "../../../graphql/queries";
 
-const Index = () => {
+export async function getStaticProps() {
+  const res = await fetch("http://localhost:1337/organigrams");
+  const data = await res.json();
+  return {
+    props: {
+      organigrams: data,
+    },
+  };
+}
+
+const Index = ({ organigrams }) => {
+  const DOMAIN_URL = `http://localhost:1337`;
+  const committee = [];
+  const executive = [];
+  console.log(organigrams[0].branch);
+  organigrams[0].branch.map((br) => {
+    // console.log(br.committee, br.office);
+    committee.push(br.committee);
+    executive.push(br.office);
+  });
+
+  console.log(committee, executive);
+  const committeeMembers = committee.map((mb) => {
+    return mb;
+  });
+  committeeMembers.map((mbr, i) => {
+    console.log(mbr);
+  });
+  const executiveMembers = executive.map((mb) => {
+    return mb;
+  });
+  executiveMembers.map((mbr, i) => {
+    console.log(mbr);
+  });
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -33,54 +68,50 @@ const Index = () => {
         <Tabs defaultActiveKey="Bureau" id="organigram-tabs" className="mb-3">
           <Tab eventKey="Bureau" title="Bureau Exécutif">
             <Container style={{ display: "grid", placeItems: "center" }}>
-              <Row className="p-4">
-                {membersData &&
-                  membersData[0].executive.map((member) => (
-                    <Col lg md="4" sm="12">
-                      <Card
-                        style={{
-                          width: "calc(100% - 2rem)",
-                          marginBottom: "2rem",
-                        }}
-                        className="organ__card__item"
-                        key={member.id}
-                      >
-                        <Card.Img variant="top" src={member.imgUrl} />
-                        <Card.Body>
-                          <Card.Title>{member.title}</Card.Title>
-                          <Card.Text>
-                            Some quick example text to build on the card title
-                            and make up the bulk of the card's content.
-                          </Card.Text>
-                          <Button variant="primary" onClick={handleShow}>
-                            Voir profil
-                          </Button>
-                          {/* Modal section for profile  */}
-                          {/* <ModalComponent member={member} /> */}
-                          <Modal
-                            show={show}
-                            onHide={handleClose}
-                            backdrop="static"
-                            keyboard={false}
+              <Row className="p-4 " style={{ display: "flex" }}>
+                {executiveMembers &&
+                  executiveMembers.map((item, index) => (
+                    <>
+                      {item.map((mber, i) => (
+                        <Col lg="4" md="6" sm="12" key={index}>
+                          <Card
+                            style={{
+                              width: "calc(100% - 2rem)",
+                              marginBottom: "2rem",
+                              height: "500px",
+                            }}
+                            className="organ__card__item  "
+                            key={i}
                           >
-                            <Modal.Header closeButton>
-                              <Modal.Title>Modal title</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                              I will not close if you click outside me. Don't
-                              even try to press escape key.
-                            </Modal.Body>
-                            <Modal.Footer>
-                              <Button variant="secondary" onClick={handleClose}>
-                                Close
-                              </Button>
-                              <Button variant="primary">Understood</Button>
-                            </Modal.Footer>
-                          </Modal>
-                          {/*End Modal section for profile  */}
-                        </Card.Body>
-                      </Card>
-                    </Col>
+                            <Card.Img
+                              variant="top"
+                              src={`${DOMAIN_URL}${mber.member.profile_img.url}`}
+                              alt={`${mber.member.firstname}${" "}${
+                                mber.member.lastname
+                              }`}
+                              style={{
+                                minHeight: "200px",
+                                height: "330px",
+                                objectFit: "cover",
+                              }}
+                            />
+                            <Card.Body style={{ flexGrow: "1" }}>
+                              <Card.Title>
+                                {mber.member.firstname &&
+                                mber.member.firstname === "Splingard"
+                                  ? `${mber.member_role.role}e`
+                                  : `${mber.member_role.role}`}
+                              </Card.Title>
+                              <Card.Text>
+                                <h5>{mber.member.firstname}</h5>
+                                <h6>{mber.member.lastname}</h6>
+                              </Card.Text>
+                              <Button variant="primary">Voir profil</Button>
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      ))}
+                    </>
                   ))}
               </Row>
               {/* Row  */}
@@ -88,29 +119,50 @@ const Index = () => {
           </Tab>
           <Tab eventKey="Directeur" title="Comité directeur">
             <Container>
-              <Row className="p-4">
-                {membersData &&
-                  membersData[0].committee.map((member) => (
-                    <Col lg md="4" sm="12">
-                      <Card
-                        style={{
-                          width: "calc(100% - 2rem)",
-                          marginBottom: "2rem",
-                        }}
-                        className="organ__card__item"
-                        key={member.id}
-                      >
-                        <Card.Img variant="top" src={member.imgUrl} />
-                        <Card.Body>
-                          <Card.Title>{member.title}</Card.Title>
-                          <Card.Text>
-                            Some quick example text to build on the card title
-                            and make up the bulk of the card's content.
-                          </Card.Text>
-                          <Button variant="primary">Voir profil</Button>
-                        </Card.Body>
-                      </Card>
-                    </Col>
+              <Row className="p-4 " style={{ display: "flex" }}>
+                {committeeMembers &&
+                  committeeMembers.map((item, index) => (
+                    <>
+                      {item.map((mber, i) => (
+                        <Col lg="4" md="6" sm="12" key={index}>
+                          <Card
+                            style={{
+                              width: "calc(100% - 2rem)",
+                              marginBottom: "2rem",
+                              height: "500px",
+                            }}
+                            className="organ__card__item  "
+                            key={i}
+                          >
+                            <Card.Img
+                              variant="top"
+                              src={`${DOMAIN_URL}${mber.member.profile_img.url}`}
+                              alt={`${mber.member.firstname}${" "}${
+                                mber.member.lastname
+                              }`}
+                              style={{
+                                minHeight: "200px",
+                                height: "330px",
+                                objectFit: "cover",
+                              }}
+                            />
+                            <Card.Body style={{ flexGrow: "1" }}>
+                              <Card.Title>
+                                {mber.member.firstname &&
+                                mber.member.firstname === "Splingard"
+                                  ? `${mber.member_role.role}e`
+                                  : `${mber.member_role.role}`}
+                              </Card.Title>
+                              <Card.Text>
+                                <h5>{mber.member.firstname}</h5>
+                                <h6>{mber.member.lastname}</h6>
+                              </Card.Text>
+                              <Button variant="primary">Voir profil</Button>
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      ))}
+                    </>
                   ))}
               </Row>
               {/* Row  */}

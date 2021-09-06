@@ -16,6 +16,7 @@ const BigTitle = ({
         marginTop: { marginTop },
         marginBottom: { marginBottom },
         textAlign: "center",
+        cursor: "pointer",
       }}
     >
       <h3

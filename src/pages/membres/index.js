@@ -12,31 +12,37 @@ import {
 import BigTitle from "../../components/utils/BigTitle";
 import ReactPagination from "react-paginate";
 import React, { useState, useEffect } from "react";
-export async function getServerSideProps(context) {
-  const res = await fetch("https://randomuser.me/api/?results=50");
-  const data = await res.json();
+import { GET_ALL_MEMBERS } from "../../../graphql/queries";
+import client from "./../../../graphql/apolloClient";
+import { useQuery } from "@apollo/client";
+
+export async function getStaticProps() {
+  const { data, loading } = await client.query({
+    query: GET_ALL_MEMBERS,
+  });
   return {
     props: {
-      members: data,
+      members: data.members,
+      loading: loading,
     },
+    revalidate: 1,
   };
 }
+
 const index = ({ members }) => {
-  const { results } = members;
-  console.log(results);
-  const [filteredData, setFilteredData] = useState(results.slice(0, 50));
+  const DOMAIN_URL = `http://localhost:1337`;
+  console.log(members);
+  const [filteredData, setFilteredData] = useState(members.slice(0, 50));
   const [pageNumber, setPageNumber] = useState(0);
 
   // search function to filter data
 
   const handleFilter = (event) => {
     const seachWord = event.target.value;
-    const newFilterData = results.filter((value) => {
+    const newFilterData = members.filter((value) => {
       return (
-        value.name.first.toLowerCase().includes(seachWord.toLowerCase()) ||
-        value.name.last.toLowerCase().includes(seachWord.toLowerCase()) ||
-        value.name.title.toLowerCase().includes(seachWord.toLowerCase()) ||
-        value.gender.toLowerCase().includes(seachWord.toLowerCase())
+        value.firstname.toLowerCase().includes(seachWord.toLowerCase()) ||
+        value.lastname.toLowerCase().includes(seachWord.toLowerCase())
       );
     });
     setFilteredData(newFilterData);
@@ -53,34 +59,26 @@ const index = ({ members }) => {
     .slice(pagesVisited, pagesVisited + membersPerPage)
     .map((mb) => {
       return (
-        <Col lg="3" md="6" sm="12" key={mb.login.uuid}>
-          <Card className="my-4">
-            <Card.Header></Card.Header>
-            <Card.Img src={mb.picture.medium} />
+        <Col lg="3" md="6" sm="12" key={mb.id}>
+          {console.log(mb.profile_img.url)}
+          <Card className="my-4" style={{ height: "400px" }}>
+            <Card.Img
+              src={`${DOMAIN_URL}${mb.profile_img.url}`}
+              style={{
+                minHeight: "200px",
+                height: "330px",
+                objectFit: "cover",
+              }}
+            />
             <Card.Footer>
-              <h6 className="">
-                {mb.name.title} {mb.name.first}
-              </h6>
-              <Card.Text>{mb.name.last}</Card.Text>
+              <h6 className="">{mb.firstname}</h6>
+              <Card.Text>{mb.lastname}</Card.Text>
             </Card.Footer>
           </Card>
         </Col>
       );
     });
-  console.log(pageTotalNumber);
-  const showMembersData = (results) => {
-    results.slice(pagesVisited, pagesVisited + membersPerPage).map((mb) => (
-      <Col lg="3" md="6" sm="12" key={mb.login.uuid}>
-        <Card>
-          <Card.Header>
-            {mb.name.title} {mb.name.first} {mb.name.last}
-          </Card.Header>
-          <Card.Img src={mb.picture.medium} />
-          <Card.Footer></Card.Footer>
-        </Card>
-      </Col>
-    ));
-  };
+  // console.log(pageTotalNumber);
 
   return (
     <Container

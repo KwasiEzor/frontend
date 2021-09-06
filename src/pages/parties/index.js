@@ -14,6 +14,7 @@ import BigTitle from "../../components/utils/BigTitle";
 import { partiesGroupData } from "../../data/partiesGroupData";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
 const Index = () => {
   const router = useRouter();
   const { id } = router.query;

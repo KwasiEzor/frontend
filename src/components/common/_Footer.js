@@ -1,7 +1,8 @@
 import Image from "next/image";
 const _Footer = () => {
+  const currentYear = new Date().getFullYear;
   return (
-    <div className="container-fluid">
+    <div className="container-fluid text-center">
       <div className="container footer">
         <div className="row">
           <div
@@ -51,6 +52,9 @@ const _Footer = () => {
           </div>
         </div>
       </div>
+      <p style={{ margin: "0 auto", color: "white", fontSize: "0.7rem" }}>
+        &copy; {currentYear} Tous droits réservés
+      </p>
     </div>
   );
 };

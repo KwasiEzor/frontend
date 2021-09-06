@@ -1,6 +1,7 @@
 import Head from "next/head";
-
-import { Container, Row, Col } from "react-bootstrap";
+// React Boostrap components
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+// Custom components
 import Agenda from "../components/utils/Agenda";
 import BigTitle from "../components/utils/BigTitle";
 import CustomCarousel from "../components/utils/CustomCarousel";
@@ -9,9 +10,40 @@ import Partners from "../components/utils/Partners";
 import RecentPost from "../components/utils/RecentPost";
 import SocialLinksArea from "../components/utils/SocialLinksArea";
 import styles from "../styles/Home.module.css";
+// Post data from local file
 import { posts } from "./../data/posts";
+// ApolloClient
+// import { useQuery, gql } from "@apollo/client";
+import client from "../../graphql/apolloClient";
+// Graphql queries
+import { GET_ALL_AGENDAS, GET_INDEX_DATA } from "./../../graphql/queries";
+import { useRouter } from "next/router";
 
-export default function Home() {
+export async function getStaticProps() {
+  const { data, loading } = await client.query({
+    query: GET_INDEX_DATA,
+  });
+  return {
+    props: {
+      agendas: data.agendas,
+      postData: data.posts,
+      loading: loading,
+    },
+    revalidate: 1,
+  };
+}
+
+export default function Home({ agendas, loading, postData }) {
+  // console.log(postData);
+  const router = useRouter();
+  if (loading) {
+    return (
+      <>
+        <Spinner animation="border" variant="info" />
+      </>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -140,8 +172,10 @@ export default function Home() {
             title="genda"
             imgUrl="/assets/images/letterA.png"
             marginBottom="3rem"
+            onClick={() => router.push({ pathname: "/agenda" })}
           />
-          <Agenda />
+
+          <Agenda agendas={agendas} />
         </Container>
         {/* End Agenda area  */}
         <Container className="text-center">
@@ -156,7 +190,7 @@ export default function Home() {
             marginBottom="5rem"
           />
           <div className="container cardBox">
-            <RecentPost posts={posts} />
+            <RecentPost posts={postData} />
           </div>
         </Container>
         {/* End Recent posts area  */}
