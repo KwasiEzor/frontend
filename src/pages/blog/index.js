@@ -27,12 +27,13 @@ const index = () => {
           <div className="articleBox">
             <Row className="gx-2 articleRow">
               {articleItems &&
-                articleItems.map((item) => (
+                articleItems.map((item, index) => (
                   <Col lg md="4">
                     <Card
                       style={{ width: "18rem", margin: "2rem 0 " }}
                       key={item.id}
                       className="articleItem"
+                      key={index}
                     >
                       <Card.Img
                         variant="top"

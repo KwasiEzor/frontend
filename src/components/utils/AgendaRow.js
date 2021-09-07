@@ -54,7 +54,8 @@ const AgendaRow = ({ agenda, index }) => {
             </Col>
             <Col sm={12} md={2}>
               <h6>
-                <i class="fas fa-calendar-alt text-primary"></i> Date et Heure{" "}
+                <i className="fas fa-calendar-alt text-primary"></i> Date et
+                Heure{" "}
               </h6>
               <p>
                 <Badge bg="primary">{agenda.event_date} </Badge> |{" "}

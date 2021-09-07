@@ -82,7 +82,7 @@ const DetailsArticle = () => {
                       <ul className="d-inline-flex list-unstyled ">
                         <li className="mx-2">
                           <span>
-                            <i class="far fa-calendar-alt"></i> 19.10.2021
+                            <i className="far fa-calendar-alt"></i> 19.10.2021
                           </span>
                         </li>
 
@@ -92,14 +92,14 @@ const DetailsArticle = () => {
                           onClick={() => setCommentState(!commentState)}
                         >
                           <span>
-                            <i class="far fa-comments"></i>{" "}
+                            <i className="far fa-comments"></i>{" "}
                             <span>{nbComment}</span>
                           </span>
                         </li>
                         <li className="mx-2" style={{ cursor: "pointer" }}>
                           <span>
                             <i
-                              class="far fa-thumbs-up"
+                              className="far fa-thumbs-up"
                               onClick={() => setLike(like + 1)}
                             ></i>{" "}
                             <span className="likes">{like}</span>
@@ -107,7 +107,7 @@ const DetailsArticle = () => {
                         </li>
                         <li className="mx-2">
                           <span>
-                            <i class="fas fa-share-square"></i> Partager
+                            <i className="fas fa-share-square"></i> Partager
                           </span>
                         </li>
                       </ul>
@@ -217,7 +217,7 @@ const DetailsArticle = () => {
                     placeholder="Entrez un mot clé..."
                   />
                   <InputGroup.Text className="btn btn-warning">
-                    <i class="fas fa-search"></i>
+                    <i className="fas fa-search"></i>
                   </InputGroup.Text>
                 </InputGroup>
               </Form>

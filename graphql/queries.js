@@ -99,12 +99,20 @@ export const GET_SCRABBLE_GAMES_WITH_RESULTS = gql`
         nbSoloPlayer
         totalScore
         gameReferee
+        comments
         gm_results {
           id
           plyRanking
           plyScore
           percentage
           plyName
+        }
+        sc_duplicate {
+          name
+          description
+        }
+        competition {
+          name
         }
       }
     }

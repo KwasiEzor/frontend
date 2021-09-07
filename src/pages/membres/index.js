@@ -60,7 +60,6 @@ const index = ({ members }) => {
     .map((mb) => {
       return (
         <Col lg="3" md="6" sm="12" key={mb.id}>
-          {console.log(mb.profile_img.url)}
           <Card className="my-4" style={{ height: "400px" }}>
             <Card.Img
               src={`${DOMAIN_URL}${mb.profile_img.url}`}
