@@ -16,6 +16,7 @@ import client from "../../../graphql/apolloClient";
 import { GET_ALL_AGENDAS } from "../../../graphql/queries";
 import { useState } from "react";
 import ReactPagination from "react-paginate";
+import { NextSeo } from "next-seo";
 
 // Fetching agendas data
 
@@ -56,64 +57,72 @@ const index = ({ agendaData }) => {
   const handlePageChange = ({ selected }) => {
     setPageNumber(selected);
   };
+  // Configuration de SEO
+  const SEO = {
+    title: "Braine Trust | Agendas",
+    description: "La page des Agendas du club  pour le site Braine Trust",
+  };
   return (
-    <Container
-      className="page__scrabble "
-      style={{ minHeight: "100vh", padding: " 3rem 0", width: "100%" }}
-    >
-      <BigTitle
-        imgUrl="/assets/images/letterA.png"
-        title="genda du Club"
-        marginBottom="3rem"
-      />
-      <Container className="glassMorphic p-5">
-        <div>
-          <Card
-            bg="primary"
-            className="mb-5"
-            style={{ display: "grid", placeItems: "center" }}
-          >
-            <Form
-              style={{
-                width: "calc(100% - 20rem)",
-              }}
+    <>
+      <NextSeo {...SEO} />
+      <Container
+        className="page__scrabble "
+        style={{ minHeight: "100vh", padding: " 3rem 0", width: "100%" }}
+      >
+        <BigTitle
+          imgUrl="/assets/images/letterA.png"
+          title="genda du Club"
+          marginBottom="3rem"
+        />
+        <Container className="glassMorphic p-5">
+          <div>
+            <Card
+              bg="primary"
+              className="mb-5"
+              style={{ display: "grid", placeItems: "center" }}
             >
-              <InputGroup className="m-4">
-                <FormControl
-                  placeholder="Entrez un mot clé..."
-                  aria-label="Recipient's username"
-                  aria-describedby="basic-addon2"
-                  onChange={handleFilter}
-                />
-                <Button variant="warning" id="btnSearch">
-                  <i className="fas fa-search"></i>
-                </Button>
-              </InputGroup>
-            </Form>
-          </Card>
-        </div>
-        <div className="mb-5">
-          {filteredData
-            .slice(pageVisited, pageVisited + agendasPerPage)
-            .map((agenda) => (
-              <AgendaRow agenda={agenda} key={agenda.id} />
-            ))}
-        </div>
-        <div className="d-flex align-items-center  justify-content-end">
-          <ReactPagination
-            containerClassName={"paginationBttns"}
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            pageCount={pageTotalNumber}
-            onPageChange={handlePageChange}
-            previousClassName={"previousBttn"}
-            nextLinkClassName={"nextBttn"}
-            disabledClassName={"paginationDisabled"}
-            activeClassName={"paginationActive"}
-          />
-        </div>
+              <Form
+                style={{
+                  width: "calc(100% - 20rem)",
+                }}
+              >
+                <InputGroup className="m-4">
+                  <FormControl
+                    placeholder="Entrez un mot clé..."
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon2"
+                    onChange={handleFilter}
+                  />
+                  <Button variant="warning" id="btnSearch">
+                    <i className="fas fa-search"></i>
+                  </Button>
+                </InputGroup>
+              </Form>
+            </Card>
+          </div>
+          <div className="mb-5">
+            {filteredData
+              .slice(pageVisited, pageVisited + agendasPerPage)
+              .map((agenda) => (
+                <AgendaRow agenda={agenda} key={agenda.id} />
+              ))}
+          </div>
+          <div className="d-flex align-items-center  justify-content-end">
+            <ReactPagination
+              containerClassName={"paginationBttns"}
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              pageCount={pageTotalNumber}
+              onPageChange={handlePageChange}
+              previousClassName={"previousBttn"}
+              nextLinkClassName={"nextBttn"}
+              disabledClassName={"paginationDisabled"}
+              activeClassName={"paginationActive"}
+            />
+          </div>
+        </Container>
       </Container>
-    </Container>
+    </>
   );
 };
 

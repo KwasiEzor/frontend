@@ -119,7 +119,7 @@ export const GET_SCRABBLE_GAMES_WITH_RESULTS = gql`
   }
 `;
 
-export const GET_ALL_MEMBERS = gql`
+export const GET_ALL_SCRABBLE_MEMBERS = gql`
   query {
     members {
       id
@@ -169,8 +169,36 @@ export const GET_ALL_ORGANIGRAMS = gql`
     }
   }
 `;
+export const GET_BLOG_POSTS = gql`
+  query {
+    posts {
+      id
+      slug
+      author
+      released_date
+      content
+      post_image {
+        previewUrl
+        url
+      }
+      p_categories {
+        id
+        name
+      }
+      p_comments {
+        content
+        members {
+          id
+          firstname
+          lastname
+        }
+      }
+    }
+  }
+`;
 export default {
   GET_ALL_AGENDAS,
+  GET_BLOG_POSTS,
   GET_INDEX_DATA,
   GET_SCRABBLE_GAMES_WITH_RESULTS,
   GET_ALL_ORGANIGRAMS,

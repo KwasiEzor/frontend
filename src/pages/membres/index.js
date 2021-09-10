@@ -7,23 +7,22 @@ import {
   FormControl,
   InputGroup,
   Button,
-  Table,
 } from "react-bootstrap";
 import BigTitle from "../../components/utils/BigTitle";
 import ReactPagination from "react-paginate";
-import React, { useState, useEffect } from "react";
-import { GET_ALL_MEMBERS } from "../../../graphql/queries";
+import React, { useState } from "react";
+import { GET_ALL_SCRABBLE_MEMBERS } from "../../../graphql/queries";
 import client from "./../../../graphql/apolloClient";
-import { useQuery } from "@apollo/client";
+import { NextSeo } from "next-seo";
 
 export async function getStaticProps() {
-  const { data, loading } = await client.query({
-    query: GET_ALL_MEMBERS,
+  const { data } = await client.query({
+    query: GET_ALL_SCRABBLE_MEMBERS,
   });
+
   return {
     props: {
       members: data.members,
-      loading: loading,
     },
     revalidate: 1,
   };
@@ -31,7 +30,6 @@ export async function getStaticProps() {
 
 const index = ({ members }) => {
   const DOMAIN_URL = `http://localhost:1337`;
-  console.log(members);
   const [filteredData, setFilteredData] = useState(members.slice(0, 50));
   const [pageNumber, setPageNumber] = useState(0);
 
@@ -78,59 +76,71 @@ const index = ({ members }) => {
       );
     });
   // console.log(pageTotalNumber);
+  // configuration du SEO
+
+  const SEO = {
+    title: "Braine Trust | Membres",
+    description: "La page des membres pour le site Braine Trust",
+  };
 
   return (
-    <Container
-      className="page__scrabble "
-      style={{ minHeight: "100vh", padding: " 3rem 0", width: "100%" }}
-    >
-      <BigTitle
-        imgUrl="/assets/images/letterM.png"
-        title="embres du Club"
-        marginBottom="3rem"
-      />
-      <Container className="glassMorphic p-5">
-        <div>
-          <Card
-            bg="primary"
-            className="mt-5 mb-5"
-            style={{ display: "grid", placeItems: "center" }}
-          >
-            <Form
-              style={{
-                width: "calc(100% - 20rem)",
-              }}
-            >
-              <InputGroup className="m-4">
-                <FormControl
-                  placeholder="Entrez un mot clé..."
-                  aria-label="Recipient's username"
-                  aria-describedby="basic-addon2"
-                  onChange={handleFilter}
-                />
-                <Button variant="warning" id="btnSearch">
-                  <i className="fas fa-search"></i>
-                </Button>
-              </InputGroup>
-            </Form>
-          </Card>
-        </div>
-        <Row className="p-4" styel={{ display: "grid", placeItems: "center" }}>
-          {displayedMbrs}
-        </Row>
-        <ReactPagination
-          containerClassName={"paginationBttns"}
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          pageCount={pageTotalNumber}
-          onPageChange={handlePageChange}
-          previousClassName={"previousBttn"}
-          nextLinkClassName={"nextBttn"}
-          disabledClassName={"paginationDisabled"}
-          activeClassName={"paginationActive"}
+    <>
+      <NextSeo {...SEO} />
+      <Container
+        className="page__scrabble "
+        style={{ minHeight: "100vh", padding: " 3rem 0", width: "100%" }}
+      >
+        <BigTitle
+          imgUrl="/assets/images/letterM.png"
+          title="embres du Club"
+          marginBottom="3rem"
         />
+        <Container className="glassMorphic p-5">
+          <div>
+            <Card
+              bg="primary"
+              className="mt-5 mb-5"
+              style={{ display: "grid", placeItems: "center" }}
+            >
+              <Form
+                style={{
+                  width: "calc(100% - 20rem)",
+                }}
+              >
+                <InputGroup className="m-4">
+                  <FormControl
+                    placeholder="Entrez un mot clé..."
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon2"
+                    onChange={handleFilter}
+                  />
+                  <Button variant="warning" id="btnSearch">
+                    <i className="fas fa-search"></i>
+                  </Button>
+                </InputGroup>
+              </Form>
+            </Card>
+          </div>
+          <Row
+            className="p-4"
+            styel={{ display: "grid", placeItems: "center" }}
+          >
+            {displayedMbrs}
+          </Row>
+          <ReactPagination
+            containerClassName={"paginationBttns"}
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            pageCount={pageTotalNumber}
+            onPageChange={handlePageChange}
+            previousClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+          />
+        </Container>
       </Container>
-    </Container>
+    </>
   );
 };
 

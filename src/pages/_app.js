@@ -6,18 +6,22 @@ import "../styles/globals.css";
 import { wrapper } from "../../redux/store";
 // ApolloClient
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-
+import SEO from "../../next-seo.config";
+import { DefaultSeo } from "next-seo";
 const client = new ApolloClient({
   uri: process.env.STRAPI_GRAPHQL_API,
   cache: new InMemoryCache(),
 });
 function MyApp({ Component, pageProps }) {
   return (
-    <ApolloProvider client={client}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ApolloProvider>
+    <>
+      <DefaultSeo {...SEO} />
+      <ApolloProvider client={client}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ApolloProvider>
+    </>
   );
 }
 
