@@ -17,11 +17,15 @@ const inscription = () => {
     title: "Braine Trust | Inscription",
     description: "La page d'inscription pour le site Braine Trust",
   };
+
+  // Member and user validation form
+
+  // Validation Schema
   const memberAndUserSchema = yup.object().shape({
     email: yup.string().email().required("Email valide requis"),
     password: yup
       .string()
-      .min(8)
+      .min(8, "Au moins 8 caractères")
       .matches(RegExp("(.*[a-z].*)"), "Au moins une lettre minuscule")
       .matches(RegExp("(.*[A-Z].*)"), "Au moins une lettre ne majuscule")
       .matches(RegExp("(.*\\d.*)"), "Au moins un chiffre")
@@ -37,27 +41,33 @@ const inscription = () => {
         "Les mots de passe doivent être identiques"
       ),
   });
+
   const handleMemberSubmit = (data) => {
-    console.log(data);
+    console.log("data handleMemberSubmit", data);
+  };
+
+  const handleNewUserSubmit = (data) => {
+    console.log("data handleNewUserSubmit", data);
   };
 
   const {
-    control,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(memberAndUserSchema),
+    mode: "onTouched",
   });
 
   // Member subscribe form validation schema
-  const FILE_SIZE = 160 * 1024;
+  const FILE_SIZE = 900000;
   const SUPPORTED_FORMATS = [
     "image/jpg",
     "image/jpeg",
     "image/gif",
     "image/png",
   ];
+  // validation schema of the second form
   const newMemberSchema = yup.object().shape({
     firstname: yup
       .string()
@@ -68,31 +78,37 @@ const inscription = () => {
       .min(2, "Le prénom doit avoir minimum 2 caractères")
       .required("Le champ prénom est requis"),
     birthday: yup
-      .string()
-      .required("Date de naissance est requise")
-      .matches(
-        /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
-        "Date doit correspondre au format YYYY-MM-DD"
-      ),
+      .date()
+      .default(() => new Date())
+      .nullable()
+      .transform((v) => (v instanceof Date && !isNaN(v) ? v : null))
+      .required("Date de naissance est requise"),
+
     country: yup.string().required("Le champ pays est requis"),
-    address: yup.string().required("Le champ adresse est requis"),
     city: yup.string().required("Le champ ville est requis"),
+    address: yup.string().required("Le champ adresse est requis"),
     postalcode: yup.string().required("Le champ code postal est requis"),
     phoneNumber: yup.string().required("Le champ code postal est requis"),
-    profile_img: yup
-      .mixed()
-      .required("Vous devez choisir une image")
-      .test(
-        "fileSize",
-        "Fichier d'image trop large",
-        (value) => value && value.size <= FILE_SIZE
-      )
-      .test(
-        "fileFormat",
-        "Format non supporté",
-        (value) => value && SUPPORTED_FORMATS.includes(value.type)
-      ),
+    profile_img: yup.mixed().required("Vous devez choisir une image"),
+    // .test(
+    //   "fileSize",
+    //   "Fichier d'image trop large",
+    //   (value) => value && value.size >= FILE_SIZE
+    // )
+    // .test(
+    //   "fileFormat",
+    //   "Format non supporté",
+    //   (value) => value && SUPPORTED_FORMATS.includes(value.type)
+    // ),
   });
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    formState: { errors: errors2 },
+  } = useForm({
+    resolver: yupResolver(newMemberSchema),
+  });
+
   return (
     <>
       <NextSeo {...SEO} />
@@ -156,7 +172,9 @@ const inscription = () => {
                             errors.email ? "is-invalid" : ""
                           }`}
                         />
-                        <p className="validation">{errors.email?.message}</p>
+                        <Form.Control.Feedback type="invalid" className="">
+                          {errors.email?.message}
+                        </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group className="mb-3" controlId="password">
                         <Form.Label className="text-white">
@@ -171,7 +189,9 @@ const inscription = () => {
                             errors.password ? "is-invalid" : ""
                           }`}
                         />
-                        <p className="validation">{errors.password?.message}</p>
+                        <Form.Control.Feedback type="invalid" className="">
+                          {errors.password?.message}
+                        </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group className="mb-3" controlId="confirmPassword">
                         <Form.Label className="text-white">
@@ -186,13 +206,13 @@ const inscription = () => {
                             errors.confirmPassword ? "is-invalid" : ""
                           }`}
                         />
-                        <p className="validation">
+                        <Form.Control.Feedback className="validation">
                           {errors.confirmPassword?.message}
-                        </p>
+                        </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group className="text-center">
                         <Button
-                          type="button"
+                          type="submit"
                           variant="warning"
                           size="lg"
                           className="d-block"
@@ -214,7 +234,7 @@ const inscription = () => {
                         marginLeft: "auto",
                         marginRight: "auto",
                       }}
-                      onSumit={handleSubmit(null)}
+                      onSubmit={handleSubmit2(handleNewUserSubmit)}
                     >
                       <Form.Group className="mb-3" controlId="firstname">
                         <Form.Label className="text-white">
@@ -224,10 +244,10 @@ const inscription = () => {
                           type="text"
                           placeholder="nom@exemple.com"
                           name="firstname"
-                          {...register("firstname")}
+                          {...register2("firstname")}
                         />
-                        <p className="validation">
-                          {errors.firstname?.message}
+                        <p className="text-danger">
+                          {errors2.firstname?.message}
                         </p>
                       </Form.Group>
                       <Form.Group className="mb-3" controlId="lastname">
@@ -238,9 +258,11 @@ const inscription = () => {
                           type="text"
                           placeholder="Entrez votre prénom"
                           name="lastname"
-                          {...register("lastname")}
+                          {...register2("lastname")}
                         />
-                        <p className="validation">{errors.lastname?.message}</p>
+                        <p className="text-danger">
+                          {errors2.lastname?.message}
+                        </p>
                       </Form.Group>
                       <Form.Group className="mb-3" controlId="birthday">
                         <Form.Label className="text-white">
@@ -251,9 +273,11 @@ const inscription = () => {
                           placeholder="Choisir une date"
                           name="birthday"
                           className="inputSelect"
-                          {...register("birthday")}
+                          {...register2("birthday")}
                         />
-                        <p className="validation">{errors.birthday?.message}</p>
+                        <p type="invalid" className="text-danger">
+                          {errors2.birthday?.message}
+                        </p>
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="country">
@@ -263,7 +287,7 @@ const inscription = () => {
                         <Form.Select
                           defaultValue="Choisir pays"
                           name="country"
-                          {...register("country")}
+                          {...register2("country")}
                         >
                           <option>Votre pays...</option>
                           {countries.map((country) => (
@@ -272,7 +296,7 @@ const inscription = () => {
                             </option>
                           ))}
                         </Form.Select>
-                        <p className="validation">{errors.country?.message}</p>
+                        <p className="validation">{errors2.country?.message}</p>
                       </Form.Group>
                       <Form.Group className="mb-3" controlId="address">
                         <Form.Label className="text-white">
@@ -282,9 +306,11 @@ const inscription = () => {
                           type="text"
                           placeholder="Entrez votre adresse"
                           name="address"
-                          {...register("address")}
+                          {...register2("address")}
                         />
-                        <p className="validation">{errors.address?.message}</p>
+                        <p className="text-danger">
+                          {errors2.address?.message}
+                        </p>
                       </Form.Group>
                       <Row className="mb-3">
                         <Form.Group as={Col} controlId="city">
@@ -293,9 +319,9 @@ const inscription = () => {
                             type="text"
                             name="city"
                             placeholder="Votre ville"
-                            {...register("city")}
+                            {...register2("city")}
                           />
-                          <p className="validation">{errors.city?.message}</p>
+                          <p className="text-danger">{errors2.city?.message}</p>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="postalcode">
@@ -303,13 +329,13 @@ const inscription = () => {
                             Code postal
                           </Form.Label>
                           <Form.Control
-                            type="number"
+                            type="text"
                             placeholder="Votre code postal"
                             name="postalcode"
-                            {...register("postalcode")}
+                            {...register2("postalcode")}
                           />
-                          <p className="validation">
-                            {errors.postalcode?.message}
+                          <p className="text-danger">
+                            {errors2.postalcode?.message}
                           </p>
                         </Form.Group>
                       </Row>
@@ -321,10 +347,10 @@ const inscription = () => {
                           type="text"
                           placeholder="Entrez votre numéro de téléphone"
                           name="phoneNumber"
-                          {...register("phoneNumber")}
+                          {...register2("phoneNumber")}
                         />
-                        <p className="validation">
-                          {errors.phoneNumber?.message}
+                        <p className="text-danger">
+                          {errors2.phoneNumber?.message}
                         </p>
                       </Form.Group>
                       <Form.Group className="mb-3" controlId="profile_img">
@@ -335,15 +361,15 @@ const inscription = () => {
                           type="file"
                           name="profileImage"
                           className="inputFile"
-                          {...register("profile_img")}
+                          {...register2("profile_img")}
                         />
-                        <p className="validation">
-                          {errors.profile_img?.message}
+                        <p className=" text-danger">
+                          {errors2.profile_img?.message}
                         </p>
                       </Form.Group>
                       <Form.Group className="text-center">
                         <Button
-                          type="button"
+                          type="submit"
                           variant="warning"
                           size="lg"
                           className="d-block"

@@ -47,9 +47,9 @@ const Index = ({ scrabbleGames }) => {
       games,
     };
   });
-  console.log(scrabbleGames);
-  console.log(scrabbleGameResults);
-  console.log(scrabbleGameRounds);
+  // console.log(scrabbleGames);
+  // console.log(scrabbleGameResults);
+  // console.log(scrabbleGameRounds);
   const router = useRouter();
   const { id } = router.query;
   const DOMAIN_URL = `http://localhost:1337`;

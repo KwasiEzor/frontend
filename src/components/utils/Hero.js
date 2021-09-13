@@ -1,6 +1,7 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
-import Link from "next/link";
+import { useRouter } from "next/router";
 const Hero = () => {
+  const router = useRouter();
   return (
     <Container className="hero__block container">
       <Row>
@@ -19,16 +20,15 @@ const Hero = () => {
                 className="hero__left__img"
               />
             </div>
-            <Link href="/scrabble">
-              <Button
-                type="button"
-                variant="outline-warning"
-                className="mt-4 btnHeroAction"
-                size="lg"
-              >
-                COMMENCEZ ICI
-              </Button>
-            </Link>
+            <Button
+              type="button"
+              variant="outline-warning"
+              className="mt-4 btnHeroAction"
+              size="lg"
+              onClick={() => router.push("/scrabble")}
+            >
+              COMMENCEZ ICI
+            </Button>
           </div>
         </Col>
         <Col lg md={6} xs={12} className="hero__right"></Col>
