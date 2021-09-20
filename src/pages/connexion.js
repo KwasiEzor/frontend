@@ -9,46 +9,20 @@ import Cookie from "js-cookie";
 import { parseCookies } from "../../lib/parseCookie";
 import cookie from "cookie";
 import { NextSeo } from "next-seo";
-export async function getServerSideProps({ req }) {
-  const loginInfos = {
-    identifier: "kwasiEzor",
-    password: "Test123",
-  };
-  const res = await fetch("http://localhost:1337/auth/local", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(loginInfos),
-  });
-  const login = await res.json();
-  return {
-    props: {
-      authData: login,
-    },
-  };
-}
-const connexion = ({ authData }) => {
+import { setCookie } from "nookies";
+
+const connexion = () => {
   // SEO definition
 
   const SEO = {
     title: "Braine Trust | Connexion",
     description: "La page de connexion pour le site Braine Trust",
   };
-  // const [authCookie, setAuthCookie] = useState(null);
-  console.log(authData);
+
   const router = useRouter();
 
-  if (authData) {
-    Cookie.set("authUser", authData.user);
-    Cookie.set("authJWT", authData.jwt);
-  } else {
-    console.log(" 403 Unauthorized user, need to log in");
-    router.push("/connexion");
-  }
   const validationSchema = yup.object().shape({
-    email: yup.string().required("Email valide requis").email(),
+    identifier: yup.string().required("Identifiant valide requis"),
     password: yup.string().required("Mot de passe valide requis"),
   });
 
@@ -59,9 +33,40 @@ const connexion = ({ authData }) => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit = (data) => {
-    alert("ok");
+  const API_URL = `http://localhost:1337`;
+  const onSubmit = async (data) => {
     console.log(data);
+
+    try {
+      const res = await fetch(`${API_URL}/auth/local`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const loginResponse = await res.json();
+      console.log("Login infos :", loginResponse);
+
+      if (!loginResponse.statusCode === 400) {
+        console.log(loginResponse);
+        return false;
+      } else {
+        setCookie(null, "authUser", JSON.stringify(loginResponse), {
+          secure: process.env.NODE_ENV !== "development",
+          maxAge: 30 * 24 * 60 * 60,
+          path: "/",
+        });
+        if (loginResponse.jwt) {
+          router.push("/profile");
+        } else {
+          return false;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -78,18 +83,18 @@ const connexion = ({ authData }) => {
             style={{ maxWidth: "30rem", width: "100%" }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label className="text-white">
-                Votre adresse Email
-              </Form.Label>
+            <Form.Group className="mb-3" controlId="identifier">
+              <Form.Label className="text-white">Votre identifiant</Form.Label>
               <Form.Control
-                type="email"
-                name="email"
-                placeholder="nom@exemple.com"
-                {...register("email")}
-                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                type="text"
+                name="identifier"
+                placeholder="johndoe"
+                {...register("identifier")}
+                className={`form-control ${
+                  errors.identifier ? "is-invalid" : ""
+                }`}
               />
-              <p className="validation">{errors.email?.message}</p>
+              <p className="text-danger">{errors.identifier?.message}</p>
             </Form.Group>
             <Form.Group className="mb-3" controlId="password">
               <Form.Label className="text-white">Votre mot de passe</Form.Label>
@@ -102,11 +107,11 @@ const connexion = ({ authData }) => {
                   errors.password ? "is-invalid" : ""
                 }`}
               />
-              <p className="validation">{errors.password?.message}</p>
+              <p className=" text-danger">{errors.password?.message}</p>
             </Form.Group>
             <Form.Group className="text-center">
               <Button
-                type="button"
+                type="submit"
                 variant="warning"
                 size="lg"
                 className="d-block"
@@ -122,3 +127,24 @@ const connexion = ({ authData }) => {
 };
 
 export default connexion;
+
+// export async function getServerSideProps({ req }) {
+//   const loginInfos = {
+//     identifier: "kwasiEzor",
+//     password: "Test123",
+//   };
+//   const res = await fetch("http://localhost:1337/auth/local", {
+//     method: "POST",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(loginInfos),
+//   });
+//   const login = await res.json();
+//   return {
+//     props: {
+//       authData: login,
+//     },
+//   };
+// }

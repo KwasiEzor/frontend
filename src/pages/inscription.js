@@ -1,4 +1,13 @@
-import { Container, Row, Col, Form, Button, Tab, Nav } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Tab,
+  Nav,
+  Alert,
+} from "react-bootstrap";
 import BigTitle from "../components/utils/BigTitle";
 import countries from "../data/fr/countries.json";
 
@@ -22,7 +31,7 @@ const inscription = () => {
 
   // Validation Schema
   const memberAndUserSchema = yup.object().shape({
-    email: yup.string().email().required("Email valide requis"),
+    identifier: yup.string().required("Identifiant valide requis"),
     password: yup
       .string()
       .min(8, "Au moins 8 caractères")
@@ -42,8 +51,25 @@ const inscription = () => {
       ),
   });
 
-  const handleMemberSubmit = (data) => {
+  const loginFeedback = " ";
+  const handleMemberSubmit = async (data) => {
     console.log("data handleMemberSubmit", data);
+    const { identifier, password } = data;
+
+    const res = await fetch("http://localhost:1337/auth/local/register", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: { identifier, password },
+    });
+    const user = await res.json();
+    if (user) {
+      console.log(user);
+    } else {
+      console.log();
+    }
   };
 
   const handleNewUserSubmit = (data) => {
@@ -77,6 +103,7 @@ const inscription = () => {
       .string()
       .min(2, "Le prénom doit avoir minimum 2 caractères")
       .required("Le champ prénom est requis"),
+    email: yup.string().email().required("Le champ email est requis"),
     birthday: yup
       .date()
       .default(() => new Date())
@@ -150,6 +177,20 @@ const inscription = () => {
                   {/* Ancien Membre  */}
                   {}
                   <Tab.Pane eventKey="first" className="subscribeTabPanel">
+                    {/* <Alert
+                      style={{
+                        width: "20rem",
+                        minWidth: "80%",
+                        maxWidth: "100%",
+                        margin: "0 auto",
+                      }}
+                      variant="success"
+                      className={`${
+                        loginFeedback === "" ? "d-none" : "d-block"
+                      }`}
+                    >
+                      {loginFeedback}
+                    </Alert> */}
                     <Form
                       style={{
                         maxWidth: "30rem",
@@ -159,17 +200,17 @@ const inscription = () => {
                       }}
                       onSubmit={handleSubmit(handleMemberSubmit)}
                     >
-                      <Form.Group className="mb-3" controlId="email">
+                      <Form.Group className="mb-3" controlId="identifier">
                         <Form.Label className="text-white">
-                          Votre adresse Email
+                          Votre identifiant
                         </Form.Label>
                         <Form.Control
-                          type="email"
-                          placeholder="nom@exemple.com"
-                          name="email"
-                          {...register("email")}
+                          type="text"
+                          placeholder="Entrez votre identifiant"
+                          name="identifier"
+                          {...register("identifier")}
                           className={`form-control ${
-                            errors.email ? "is-invalid" : ""
+                            errors.identifer ? "is-invalid" : ""
                           }`}
                         />
                         <Form.Control.Feedback type="invalid" className="">
@@ -263,6 +304,18 @@ const inscription = () => {
                         <p className="text-danger">
                           {errors2.lastname?.message}
                         </p>
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="email">
+                        <Form.Label className="text-white">
+                          Votre email
+                        </Form.Label>
+                        <Form.Control
+                          type="email"
+                          placeholder="nom@exemple.me"
+                          name="email"
+                          {...register2("email")}
+                        />
+                        <p className="text-danger">{errors2.email?.message}</p>
                       </Form.Group>
                       <Form.Group className="mb-3" controlId="birthday">
                         <Form.Label className="text-white">

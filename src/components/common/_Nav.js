@@ -1,5 +1,16 @@
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import Link from "next/link";
+import { parseCookies } from "nookies";
+
+// export const getServerSideProps = async (ctx) => {
+//   const user = parseCookies(ctx).authUser;
+//   console.log(user);
+//   return {
+//     props: {
+//       authUser: user,
+//     },
+//   };
+// };
 const _Nav = () => {
   return (
     <Navbar bg="" className="bra-bg-primary " expand="lg">
@@ -57,15 +68,21 @@ const _Nav = () => {
                 <i className="fas fa-user-circle text-white"></i>
               </Nav.Link>
             </Link>
+            <Link href="/profile" passHref>
+              <Nav.Link
+                className={`btn btn-info   ${null ? "d-none" : "d-block"}`}
+                id="btnUser"
+              >
+                <i className="fas fa-user-check "></i>
+              </Nav.Link>
+            </Link>
             <Link href="/contact" passHref>
-              <Nav.Link className="btn btn-default text-white" id="btnLogin">
+              <Nav.Link className="btn btn-default text-white">
                 <i className="fas fa-envelope text-white"></i>
               </Nav.Link>
             </Link>
             <Link href="/blog" passHref>
-              <Nav.Link className="btn btn-default text-white" id="btnLogin">
-                Blog
-              </Nav.Link>
+              <Nav.Link className="btn btn-default text-white">Blog</Nav.Link>
             </Link>
           </Nav>
         </Navbar.Collapse>
