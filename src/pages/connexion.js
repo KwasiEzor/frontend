@@ -20,7 +20,7 @@ const connexion = () => {
   };
 
   const router = useRouter();
-
+  // Validation
   const validationSchema = yup.object().shape({
     identifier: yup.string().required("Identifiant valide requis"),
     password: yup.string().required("Mot de passe valide requis"),
@@ -33,7 +33,9 @@ const connexion = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+  // connection to the API
   const API_URL = `http://localhost:1337`;
+
   const onSubmit = async (data) => {
     console.log(data);
 
@@ -70,6 +72,7 @@ const connexion = () => {
   };
   return (
     <>
+      {/* seo references  */}
       <NextSeo {...SEO} />
       <Container
         style={{ width: "100%", minHeight: "70vh", padding: " 3rem 0" }}

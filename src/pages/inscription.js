@@ -17,6 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { DevTool } from "@hookform/devtools";
 import * as yup from "yup";
 import { NextSeo } from "next-seo";
+import { useRouter } from "next/router";
 // Validation hooks
 
 const inscription = () => {
@@ -52,6 +53,8 @@ const inscription = () => {
   });
 
   const loginFeedback = " ";
+  const router = useRouter();
+
   const handleMemberSubmit = async (data) => {
     console.log("data handleMemberSubmit", data);
     const { identifier, password } = data;
@@ -67,8 +70,9 @@ const inscription = () => {
     const user = await res.json();
     if (user) {
       console.log(user);
+      return <Alert>Inscription réussie !!</Alert>;
     } else {
-      console.log();
+      console.log("erreur lors de l'inscription");
     }
   };
 

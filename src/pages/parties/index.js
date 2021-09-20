@@ -138,7 +138,7 @@ const Index = ({ scrabbleGames }) => {
                 <Col lg="3" md="6" sm="12" key={index}>
                   <Card className="mb-5">
                     <Card.Header>
-                      <h6>{data.sc_gm_result.competition.name}</h6>
+                      <h6></h6>
                     </Card.Header>
                     <Card.Img src="/assets/images/scrabble-duplicate.png" />
                     <Card.Body>
